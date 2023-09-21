@@ -1,15 +1,16 @@
+import path from "path";
+import fs from "fs";
 import express from "express";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import App from "./App";
-import path from "path";
-import fs from "fs";
 
 const app = express();
 
 app.get("/", (_, res) => {
   const htmlFromReact = ReactDOMServer.renderToString(<App />);
-  const htmlShell = fs.readFileSync("src/index.html", "utf-8");
+  const htmlPath = path.join("src", "index.html");
+  const htmlShell = fs.readFileSync(htmlPath, "utf-8");
   const html = htmlShell.replace("<!-- html -->", htmlFromReact);
   res.header("content-type", "text/html");
   res.send(html);
